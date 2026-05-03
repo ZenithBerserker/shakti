@@ -1,12 +1,10 @@
 import { jwtVerify } from "jose";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import {
-  ADMIN_COOKIE,
-  CUSTOMER_COOKIE,
-} from "@/lib/auth/session";
+import { ADMIN_COOKIE, CUSTOMER_COOKIE } from "@/lib/auth/session-cookies";
 
-function secretBytes() {
+/** Edge-safe: never throw — a missing secret is handled like an invalid session. */
+function jwtSecretKey(): Uint8Array | null {
   const raw = process.env.JWT_SECRET;
   if (raw && raw.length >= 16) {
     return new TextEncoder().encode(raw);
@@ -14,16 +12,19 @@ function secretBytes() {
   if (process.env.NODE_ENV !== "production") {
     return new TextEncoder().encode("dev-insecure-jwt-secret");
   }
-  throw new Error("JWT_SECRET missing");
+  return null;
 }
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const secret = secretBytes();
+  const secret = jwtSecretKey();
 
   if (pathname.startsWith("/admin")) {
     if (pathname.startsWith("/admin/login")) {
       return NextResponse.next();
+    }
+    if (!secret) {
+      return NextResponse.redirect(new URL("/admin/login", request.url));
     }
     const token = request.cookies.get(ADMIN_COOKIE)?.value;
     if (!token) {
@@ -51,6 +52,11 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/register");
 
   if (customerProtected) {
+    if (!secret) {
+      const login = new URL("/login", request.url);
+      login.searchParams.set("next", pathname);
+      return NextResponse.redirect(login);
+    }
     const token = request.cookies.get(CUSTOMER_COOKIE)?.value;
     if (!token) {
       const login = new URL("/login", request.url);

@@ -1,7 +1,8 @@
 import { SignJWT, jwtVerify } from "jose";
 
-export const CUSTOMER_COOKIE = "customer_session";
-export const ADMIN_COOKIE = "admin_session";
+import { ADMIN_COOKIE, CUSTOMER_COOKIE } from "@/lib/auth/session-cookies";
+
+export { ADMIN_COOKIE, CUSTOMER_COOKIE } from "@/lib/auth/session-cookies";
 
 const DAY_MS = 86_400_000;
 
