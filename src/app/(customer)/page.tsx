@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
@@ -17,7 +18,7 @@ import { ProductCard, type ProductCardModel } from "@/components/catalog/product
 import { RecentForYou } from "@/components/catalog/recent-for-you";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
 function toCard(p: SerializedCatalogProduct): ProductCardModel {
   return {
@@ -65,57 +66,55 @@ export default async function HomePage() {
 
   const cards = featuredSerialized.map((p) => toCard(p));
 
+  const heroImage =
+    "https://images.unsplash.com/photo-1507652313519-d4c917358e32?auto=format&fit=crop&w=1400&q=85";
+
   return (
-    <div className="space-y-8 pb-4 md:space-y-12 md:pb-0">
-      <section className="grid gap-6 md:grid-cols-2 md:items-center md:gap-8">
-        <div className="space-y-4 md:space-y-5">
-          <p className="inline-flex rounded-full bg-secondary px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-secondary-foreground md:text-xs">
-            Made for Indian B2B teams
-          </p>
-          <h1 className="text-balance text-2xl font-semibold tracking-tight md:text-5xl">
-            Bulk cleaning supplies with MOQ-aware pricing and GST-ready orders.
-          </h1>
-          <p className="text-pretty text-sm text-muted-foreground md:text-base md:text-lg">
-            Tap <span className="font-medium text-foreground">+</span> on featured SKUs to add your MOQ
-            instantly — save addresses, track dispatch, reorder in seconds.
-          </p>
-          <div className="flex flex-wrap gap-2 md:gap-3">
-            <Link
-              href="/catalog"
-              className={cn(buttonVariants({ size: "lg" }), "min-h-11 flex-1 rounded-2xl sm:flex-none")}
-            >
-              Browse catalogue
-            </Link>
-            <Link
-              href="/login"
-              className={cn(
-                buttonVariants({ size: "lg", variant: "outline" }),
-                "min-h-11 flex-1 rounded-2xl sm:flex-none",
-              )}
-            >
-              Sign in with OTP
-            </Link>
+    <div className="space-y-8 pb-4 md:space-y-10 md:pb-0">
+      <section className="space-y-4">
+        <div className="relative overflow-hidden rounded-2xl border border-primary/15 shadow-md">
+          <div className="relative aspect-[5/3] w-full min-h-[168px] sm:aspect-[2.1/1]">
+            <Image
+              src={heroImage}
+              alt="Cleaning liquids, sprays, sponges and cloths on a counter"
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 420px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 space-y-2 p-4">
+              <p className="inline-flex w-fit rounded-full bg-primary/90 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary-foreground">
+                B2B reorder app
+              </p>
+              <h1 className="text-balance text-2xl font-semibold tracking-tight text-foreground drop-shadow-sm">
+                Liquids, mops & soaps — MOQ-aware, GST-ready.
+              </h1>
+            </div>
           </div>
         </div>
-        <Card className="hidden border-border/70 shadow-sm md:block">
-          <CardHeader>
-            <CardTitle className="text-lg">Quick facts</CardTitle>
-          </CardHeader>
-          <CardContent className="grid gap-3 text-sm text-muted-foreground">
-            <div className="flex items-center justify-between border-b pb-3">
-              <span>Mobile-first checkout</span>
-              <span className="font-medium text-foreground">Sub-2s routing</span>
-            </div>
-            <div className="flex items-center justify-between border-b pb-3">
-              <span>WhatsApp coordination</span>
-              <span className="font-medium text-foreground">One-tap share</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Admin control</span>
-              <span className="font-medium text-foreground">Live order board</span>
-            </div>
-          </CardContent>
-        </Card>
+
+        <p className="text-pretty text-sm text-muted-foreground">
+          Tap <span className="font-medium text-foreground">+</span> on a card to add your minimum order qty.
+          Sign in with OTP to save carts and ship-to addresses.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href="/catalog"
+            className={cn(buttonVariants({ size: "lg" }), "min-h-11 flex-1 rounded-2xl sm:flex-none")}
+          >
+            Browse catalogue
+          </Link>
+          <Link
+            href="/login"
+            className={cn(
+              buttonVariants({ size: "lg", variant: "outline" }),
+              "min-h-11 flex-1 rounded-2xl sm:flex-none",
+            )}
+          >
+            Sign in with OTP
+          </Link>
+        </div>
       </section>
 
       <section className="space-y-4 md:space-y-5">

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
-  Building2,
+  Droplets,
   LayoutGrid,
   LogOut,
   Menu,
@@ -122,65 +122,55 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div className="min-h-dvh bg-background pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-10">
-      <header className="sticky top-0 z-40 border-b bg-background/85 pt-[env(safe-area-inset-top)] backdrop-blur supports-[backdrop-filter]:bg-background/70">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5 md:py-3">
-          <div className="flex items-center gap-3">
+    <div className="flex min-h-dvh flex-1 flex-col bg-background pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-8">
+      <header className="sticky top-0 z-40 border-b border-primary/10 bg-background/90 pt-[env(safe-area-inset-top)] shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-background/75">
+        <div className="flex w-full items-center justify-between gap-2 px-3 py-2.5 sm:px-4 sm:py-3">
+          <div className="min-w-0 flex-1">
             <Link href="/" className="flex items-center gap-2">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                <Building2 className="h-5 w-5" />
+              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
+                <Droplets className="h-5 w-5" />
               </span>
-              <div className="leading-tight">
-                <div className="text-sm font-semibold tracking-tight">
-                  Shakti Supplies
-                </div>
-                <div className="text-[10px] text-muted-foreground md:text-[11px]">
-                  B2B cleaning procurement
+              <div className="min-w-0 leading-tight">
+                <div className="truncate text-sm font-semibold tracking-tight">Shakti Supplies</div>
+                <div className="truncate text-[10px] text-muted-foreground sm:text-[11px]">
+                  Liquids · mops · soaps · bulk
                 </div>
               </div>
             </Link>
           </div>
 
-          <nav className="hidden items-center gap-5 md:flex">{nav}</nav>
-
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1.5">
             {!minimal ? (
               <>
                 <Link
                   href="/cart"
                   className={cn(
-                    buttonVariants({ variant: "outline", size: "sm" }),
-                    "relative hidden gap-2 md:inline-flex",
+                    buttonVariants({ variant: "outline", size: "icon" }),
+                    "relative h-10 w-10 rounded-xl",
                   )}
+                  aria-label="Open cart"
                 >
                   <ShoppingCart className="h-4 w-4" />
-                  Cart
-                  {cartQty > 0 ? <Badge className="ml-1">{cartQty}</Badge> : null}
+                  {cartQty > 0 ? (
+                    <Badge className="absolute -right-1 -top-1 h-5 min-w-5 justify-center px-1 text-[10px]">
+                      {cartQty > 99 ? "99+" : cartQty}
+                    </Badge>
+                  ) : null}
                 </Link>
-
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="hidden md:inline-flex"
-                  onClick={() => void logoutCustomer()}
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign out
-                </Button>
               </>
             ) : (
               <Link
                 href="/login"
-                className={cn(buttonVariants({ size: "sm", variant: "outline" }), "gap-2")}
+                className={cn(buttonVariants({ size: "sm", variant: "outline" }), "gap-1.5 rounded-xl px-3")}
               >
                 <PhoneCall className="h-4 w-4" />
-                Sign in
+                <span className="hidden sm:inline">Sign in</span>
               </Link>
             )}
 
             <Sheet>
               <SheetTrigger
-                render={<Button variant="outline" size="icon" className="md:hidden" />}
+                render={<Button variant="outline" size="icon" className="h-10 w-10 rounded-xl" />}
               >
                 <Menu className="h-5 w-5" />
               </SheetTrigger>
@@ -217,7 +207,7 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-3 py-5 md:px-4 md:py-8">{children}</main>
+      <main className="w-full flex-1 px-3 py-4 sm:px-4 sm:py-6">{children}</main>
 
       {!minimal ? (
         <>
@@ -225,7 +215,7 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
             href="/cart"
             className={cn(
               buttonVariants({}),
-              "fixed left-4 right-4 z-40 h-12 gap-2 rounded-2xl shadow-lg md:hidden",
+              "fixed left-4 right-4 z-40 h-12 gap-2 rounded-2xl shadow-lg",
               "bottom-[max(1rem,env(safe-area-inset-bottom))]",
             )}
           >
@@ -238,7 +228,7 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
             ) : null}
           </Link>
 
-          <div className="fixed bottom-[calc(max(1rem,env(safe-area-inset-bottom))+6.75rem)] left-4 z-40 md:bottom-10 md:left-auto md:right-8">
+          <div className="fixed bottom-[calc(max(1rem,env(safe-area-inset-bottom))+6.75rem)] left-4 z-40">
             <Link
               href="/catalog"
               className={cn(
@@ -258,18 +248,13 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
           href={waHref}
           target="_blank"
           rel="noreferrer"
-          className="fixed bottom-24 right-4 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg transition hover:bg-emerald-600 md:bottom-10 md:right-10"
+          className="fixed bottom-24 right-4 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg transition hover:bg-emerald-700"
           aria-label="WhatsApp support"
         >
           <PhoneCall className="h-6 w-6" />
         </a>
       ) : null}
 
-      {!minimal ? (
-        <div className="pointer-events-none fixed bottom-28 right-4 hidden text-[11px] text-muted-foreground md:block md:bottom-10 md:right-28">
-          GST-compliant snapshots • Tier pricing • Fast reorder
-        </div>
-      ) : null}
     </div>
   );
 }

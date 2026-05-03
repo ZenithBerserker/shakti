@@ -36,49 +36,49 @@ export const DEMO_CATEGORIES: DemoCategoryFixture[] = [
     slug: "floor-care",
     description: "Industrial scrubbers, detergents and polishers.",
     imageUrl:
-      "https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1581579186913-45d8ab6132f1?auto=format&fit=crop&w=900&q=82",
   },
   {
     name: "Hand Hygiene",
     slug: "hand-hygiene",
     description: "Dispensers, sanitisers and antibacterial washes.",
     imageUrl:
-      "https://images.unsplash.com/photo-1584466977773-e863ae316082?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1608571423902-eed4a3ad6368?auto=format&fit=crop&w=900&q=82",
   },
   {
     name: "Laundry",
     slug: "laundry",
     description: "Commercial detergents, softeners and bleach.",
     imageUrl:
-      "https://images.unsplash.com/photo-1517677208171-0dd672840eee?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&w=900&q=82",
   },
   {
     name: "Waste Management",
     slug: "waste-management",
     description: "Bins, liners and odor-neutralising additives.",
     imageUrl:
-      "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=900&q=82",
   },
   {
     name: "Kitchen Hygiene",
     slug: "kitchen-hygiene",
     description: "Degreasers, surface sprays and dishwasher additives.",
     imageUrl:
-      "https://images.unsplash.com/photo-1556910096-6f5e446611ef?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=900&q=82",
   },
   {
     name: "Washroom & Paper",
     slug: "washroom-paper",
     description: "Tissue, towels, urinal tabs and air-care refills.",
     imageUrl:
-      "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=900&q=82",
   },
   {
     name: "Surface Disinfection",
     slug: "surface-disinfection",
     description: "Hospital-grade concentrates and ready-to-use sprays.",
     imageUrl:
-      "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=900&q=82",
   },
 ];
 
@@ -91,7 +91,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     description:
       "Daily-use neutral cleaner suitable for marble, granite and epoxy-coated surfaces.",
     imageUrl:
-      "https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&w=900&q=82",
     basePrice: 649,
     gstRate: 18,
     hsnCode: "34029099",
@@ -111,7 +111,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "kitchen-hygiene",
     description: "Cuts grease on extraction hoods, chains and stainless benches.",
     imageUrl:
-      "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=900&q=82",
     basePrice: 799,
     gstRate: 18,
     hsnCode: "38109090",
@@ -128,7 +128,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "hand-hygiene",
     description: "Pearlescent foam refill compatible with standard bulk dispensers.",
     imageUrl:
-      "https://images.unsplash.com/photo-1584466977773-e863ae316082?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1584466977773-e863ae316082?auto=format&fit=crop&w=900&q=82",
     basePrice: 899,
     gstRate: 18,
     hsnCode: "34013090",
@@ -144,7 +144,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "hand-hygiene",
     description: "75% v/v ethanol formula with emollients — WHO recommended ranges.",
     imageUrl:
-      "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=900&q=82",
     basePrice: 3899,
     gstRate: 18,
     hsnCode: "38089400",
@@ -161,7 +161,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "laundry",
     description: "Low-foam concentrate for tunnel washers and washer extractors.",
     imageUrl:
-      "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&w=900&q=82",
     basePrice: 4699,
     gstRate: 18,
     hsnCode: "34029099",
@@ -181,7 +181,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "laundry",
     description: "Blue conditioned finish for hotels and hospital linens — dilute per chart.",
     imageUrl:
-      "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1517677208171-0dd672840eee?auto=format&fit=crop&w=900&q=82",
     basePrice: 2899,
     gstRate: 18,
     hsnCode: "34029099",
@@ -198,7 +198,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "laundry",
     description: "12–13% available chlorine for whitening and sanitising — handle per SDS.",
     imageUrl:
-      "https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1608571423902-eed4a3ad6368?auto=format&fit=crop&w=900&q=82",
     basePrice: 449,
     gstRate: 18,
     hsnCode: "28289090",
@@ -214,7 +214,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "kitchen-hygiene",
     description: "Weekly dosing reduces grease buildup and drain odors.",
     imageUrl:
-      "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=900&q=82",
     basePrice: 1199,
     gstRate: 18,
     hsnCode: "38089400",
@@ -230,7 +230,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "kitchen-hygiene",
     description: "Spot-free drying for conveyor and hood-type machines.",
     imageUrl:
-      "https://images.unsplash.com/photo-1556910096-6f5e446611ef?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1556910096-6f5e446611ef?auto=format&fit=crop&w=900&q=82",
     basePrice: 929,
     gstRate: 18,
     hsnCode: "34029099",
@@ -247,7 +247,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "waste-management",
     description: "Pair with mop buckets or backpack sprayers for washrooms & refuse areas.",
     imageUrl:
-      "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=900&q=82",
     basePrice: 529,
     gstRate: 18,
     hsnCode: "38089400",
@@ -264,7 +264,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "floor-care",
     description: "Hook-and-loop pads compatible with auto scrubbers — assorted colours.",
     imageUrl:
-      "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1585841011-fdca3d3d2330?auto=format&fit=crop&w=900&q=82",
     basePrice: 2499,
     gstRate: 18,
     hsnCode: "63079090",
@@ -280,7 +280,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "kitchen-hygiene",
     description: "Streak-free formula for chilled counters and glass partitions.",
     imageUrl:
-      "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1507652313519-d4c917358e32?auto=format&fit=crop&w=900&q=82",
     basePrice: 2299,
     gstRate: 18,
     hsnCode: "34029099",
@@ -296,7 +296,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "floor-care",
     description: "Universal-fit polyurethane blades — inspect compatibility sheet.",
     imageUrl:
-      "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=900&q=82",
     basePrice: 3199,
     gstRate: 18,
     hsnCode: "40169340",
@@ -313,7 +313,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "hand-hygiene",
     description: "HACCP-friendly cloth bundles with segregation guidance.",
     imageUrl:
-      "https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1566766969125-3d2498e6e848?auto=format&fit=crop&w=900&q=82",
     basePrice: 1299,
     gstRate: 18,
     hsnCode: "63071010",
@@ -329,7 +329,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "waste-management",
     description: "240L compatible liners — puncture resistant recycled polymer.",
     imageUrl:
-      "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=900&q=82",
     basePrice: 2199,
     gstRate: 18,
     hsnCode: "39232990",
@@ -345,7 +345,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "washroom-paper",
     description: "Embossed absorbency for F&B prep and engineering wipes.",
     imageUrl:
-      "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=900&q=82",
     basePrice: 1899,
     gstRate: 18,
     hsnCode: "48189000",
@@ -362,7 +362,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "washroom-paper",
     description: "Compatible with standard mini-jumbo dispensers — septic-safe.",
     imageUrl:
-      "https://images.unsplash.com/photo-1584622650111-993a426352bf?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1584622650111-993a426352bf?auto=format&fit=crop&w=900&q=82",
     basePrice: 2699,
     gstRate: 18,
     hsnCode: "48181090",
@@ -378,7 +378,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "washroom-paper",
     description: "Cherry fragrance blocks — reduces scale buildup when paired with daily rinse.",
     imageUrl:
-      "https://images.unsplash.com/photo-1584622650111-993a426352bf?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1600880292203-75700762e37e?auto=format&fit=crop&w=900&q=82",
     basePrice: 749,
     gstRate: 18,
     hsnCode: "34029099",
@@ -394,7 +394,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "washroom-paper",
     description: "Universal aerosol compatible with common programmable dispensers.",
     imageUrl:
-      "https://images.unsplash.com/photo-1584622650111-993a426352bf?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=82",
     basePrice: 3199,
     gstRate: 18,
     hsnCode: "33074900",
@@ -411,7 +411,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "surface-disinfection",
     description: "Broad-spectrum cleaner-disinfectant for hard surfaces — dilute per protocol.",
     imageUrl:
-      "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=900&q=82",
     basePrice: 1399,
     gstRate: 18,
     hsnCode: "38089400",
@@ -428,7 +428,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "surface-disinfection",
     description: "For OT adjacent zones and pharma packing — rotation programme recommended.",
     imageUrl:
-      "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1506617566049-2fb4928a811b?auto=format&fit=crop&w=900&q=82",
     basePrice: 4899,
     gstRate: 18,
     hsnCode: "38089400",
@@ -444,7 +444,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "floor-care",
     description: "Bag + mop hangers + shelf kit — ships knocked-down with toolkit.",
     imageUrl:
-      "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=900&q=82",
     basePrice: 12999,
     gstRate: 18,
     hsnCode: "87169090",
@@ -461,7 +461,7 @@ export const DEMO_PRODUCTS: DemoProductFixture[] = [
     categorySlug: "floor-care",
     description: "Kentucky-style heads — launder hot up to 90°C.",
     imageUrl:
-      "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1581579186913-45d8ab6132f1?auto=format&fit=crop&w=900&q=82",
     basePrice: 3599,
     gstRate: 18,
     hsnCode: "96039000",
