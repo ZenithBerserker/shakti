@@ -26,7 +26,11 @@ async function main() {
     catRecords.push(
       await prisma.category.upsert({
         where: { slug: c.slug },
-        update: {},
+        update: {
+          name: c.name,
+          description: c.description,
+          imageUrl: c.imageUrl,
+        },
         create: c,
       }),
     );
