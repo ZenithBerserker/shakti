@@ -69,9 +69,23 @@ export default function AdminLoginPage() {
           <Button className="w-full rounded-2xl" disabled={busy} onClick={() => void submit()}>
             Continue
           </Button>
-          <p className="text-center text-xs text-muted-foreground">
-            Forgot password? Ask whoever maintains hosting — they reset it in the database or redeploy admin users.
-          </p>
+          <div className="space-y-2 text-center text-xs text-muted-foreground">
+            <p>
+              Default after <code className="rounded bg-muted px-1">npm run db:seed</code>:{" "}
+              <code className="rounded bg-muted px-1">admin@cleaningb2b.demo</code> /{" "}
+              <code className="rounded bg-muted px-1">Admin@12345</code>
+            </p>
+            <p>
+              Still failing? Run locally:{" "}
+              <code className="rounded bg-muted px-1">
+                npm run admin:create -- you@company.com YourPassword123
+              </code>
+            </p>
+            <p>
+              Forgot password? Ask whoever maintains hosting — or reset with{" "}
+              <code className="rounded bg-muted px-1">admin:create</code> against production DATABASE_URL.
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

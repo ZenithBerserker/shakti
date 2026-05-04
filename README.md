@@ -102,13 +102,35 @@ Default **admin** account created by seed:
 
 Change immediately in production (update hash in DB or rotate seed).
 
+### Admin login fails (“Invalid credentials”) on production
+
+Common causes: **migrations never ran**, **`admin_users` is empty**, or **`JWT_SECRET` missing / too short** on Vercel.
+
+1. Run **`npx prisma migrate deploy`** against production (`DATABASE_URL` / `DIRECT_URL`).
+2. Create an admin using **one** of these:
+   - **Seed (demo password):**  
+     `DATABASE_URL="…" npm run db:seed`  
+     (Avoid on production unless you accept the demo password — rotate afterward.)
+   - **CLI upsert (recommended):** from your laptop with prod URL in `.env`:  
+     `npm run admin:create -- you@company.com 'StrongPass123' 'Your Name'`
+   - **HTTP bootstrap (zero admins only):** set **`ADMIN_BOOTSTRAP_SECRET`** (≥16 chars) on Vercel, then:
+
+```bash
+curl -sS -X POST "https://YOUR_DOMAIN/api/admin/auth/bootstrap" \
+  -H "Content-Type: application/json" \
+  -H "x-admin-bootstrap-secret: YOUR_LONG_SECRET" \
+  -d '{"email":"you@company.com","password":"StrongPass123","name":"Admin"}'
+```
+
+Remove **`ADMIN_BOOTSTRAP_SECRET`** after the first admin exists.
+
 ## Local development
 
 ```bash
 npm run dev
 ```
 
-Visit `http://localhost:3000` — storefront; admin console at `/admin/login`.
+Visit `http://localhost:3333` — storefront; admin console at `/admin/login`.
 
 ## Vercel deployment
 
