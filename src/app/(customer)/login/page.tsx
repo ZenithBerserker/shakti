@@ -8,8 +8,17 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast } from "sonner";
 import { getFirebaseAuth } from "@/lib/firebase-client";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 function firebaseAuthHelpMessage(raw: string): string {
+  if (/billing-not-enabled|BILLING_NOT_ENABLED/i.test(raw)) {
+    return (
+      "SMS phone sign-in requires upgrading this Firebase project from Spark to Blaze (pay-as-you-go). Firebase Console → project → Upgrade; attach a billing account. " +
+      "Phone SMS is billed per message after free quotas — see https://firebase.google.com/pricing"
+    );
+  }
   if (/configuration-not-found|CONFIGURATION_NOT_FOUND/i.test(raw)) {
     return (
       "Firebase Phone Auth isn’t active for this site yet. In Firebase Console: open Authentication → Get started → Sign-in method → enable Phone; " +
@@ -19,9 +28,6 @@ function firebaseAuthHelpMessage(raw: string): string {
   }
   return raw;
 }
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 function LoginPageContent() {
   const router = useRouter();
@@ -106,7 +112,8 @@ function LoginPageContent() {
       router.replace(profileComplete ? nextPath : "/register");
       router.refresh();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "OTP verification failed");
+      const raw = e instanceof Error ? e.message : "OTP verification failed";
+      toast.error(firebaseAuthHelpMessage(raw));
     } finally {
       setBusy(false);
     }
