@@ -11,10 +11,15 @@ export function getFirebaseApp(): FirebaseApp {
     return app;
   }
 
+  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+  const authDomain =
+    process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN?.trim() ||
+    (projectId ? `${projectId}.firebaseapp.com` : "");
+
   const config = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    authDomain,
+    projectId,
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
     messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   };

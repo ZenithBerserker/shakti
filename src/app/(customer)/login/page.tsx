@@ -8,6 +8,17 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast } from "sonner";
 import { getFirebaseAuth } from "@/lib/firebase-client";
 import { Button } from "@/components/ui/button";
+
+function firebaseAuthHelpMessage(raw: string): string {
+  if (/configuration-not-found|CONFIGURATION_NOT_FOUND/i.test(raw)) {
+    return (
+      "Firebase Phone Auth isn’t active for this site yet. In Firebase Console: open Authentication → Get started → Sign-in method → enable Phone; " +
+      "Authentication → Settings → Authorized domains → add your Vercel URL (and localhost). In Google Cloud (same project): APIs → enable Identity Toolkit API. " +
+      "Then confirm NEXT_PUBLIC_FIREBASE_* on Vercel matches Project settings → Your apps → Web, and redeploy."
+    );
+  }
+  return raw;
+}
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -61,7 +72,8 @@ function LoginPageContent() {
       setStep("otp");
       toast.success("OTP sent");
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Could not send OTP");
+      const raw = e instanceof Error ? e.message : "Could not send OTP";
+      toast.error(firebaseAuthHelpMessage(raw));
     } finally {
       setBusy(false);
     }
