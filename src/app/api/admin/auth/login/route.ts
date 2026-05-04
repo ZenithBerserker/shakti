@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
+import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import {
   ADMIN_COOKIE,
@@ -16,8 +17,48 @@ const schema = z.object({
   password: z.string().min(6),
 });
 
+function databaseUrlConfigured(): string | null {
+  const raw = process.env.DATABASE_URL?.trim();
+  if (!raw) {
+    return "DATABASE_URL is empty — open Vercel → your project → Settings → Environment Variables → Production → add the Supabase Postgres URI.";
+  }
+  const bogus =
+    raw.includes("[project-ref]") ||
+    raw.includes("[password]") ||
+    /postgresql:\/\/postgres:\[password\]/i.test(raw);
+  if (bogus) {
+    return "DATABASE_URL still looks like the template — copy the real URI from Supabase → Project Settings → Database → Connection string (URI), Transaction pooler.";
+  }
+  return null;
+}
+
+function describeDatabaseError(e: unknown): string {
+  if (e instanceof Prisma.PrismaClientKnownRequestError) {
+    if (e.code === "P2021") {
+      return "Tables are missing — from your laptop run: DATABASE_URL=\"…pooler…\" DIRECT_URL=\"…direct…\" npx prisma migrate deploy";
+    }
+    if (e.code === "P1001") {
+      return "Cannot reach Postgres — confirm DATABASE_URL uses Supabase pooler (port 6543), ?pgbouncer=true, and the database is not paused.";
+    }
+  }
+  if (e instanceof Prisma.PrismaClientInitializationError) {
+    return `Database driver failed to start: ${e.message}`;
+  }
+  const msg = e instanceof Error ? e.message : String(e);
+  if (/admin_users|does not exist|P2021/i.test(msg)) {
+    return "Schema missing — run prisma migrate deploy against this DATABASE_URL.";
+  }
+  if (/P1001|ECONNREFUSED|ENOTFOUND|timeout|Can't reach database/i.test(msg)) {
+    return "Network/ssl connection to Postgres failed — double-check DATABASE_URL and Supabase project region.";
+  }
+  return "Could not query Postgres — verify DATABASE_URL on Vercel and run prisma migrate deploy.";
+}
+
 export async function POST(req: Request) {
   try {
+    const misconfigured = databaseUrlConfigured();
+    if (misconfigured) return jsonError(misconfigured, 503);
+
     const body = await req.json().catch(() => null);
     const parsed = schema.safeParse(body);
     if (!parsed.success) return jsonError(parsed.error.message, 422);
@@ -71,9 +112,6 @@ export async function POST(req: Request) {
     });
   } catch (e) {
     console.error("[admin/login]", e);
-    return jsonError(
-      "Could not reach database — check DATABASE_URL and that migrations ran.",
-      503,
-    );
+    return jsonError(describeDatabaseError(e), 503);
   }
 }

@@ -135,7 +135,7 @@ Visit `http://localhost:3333` — storefront; admin console at `/admin/login`.
 ## Vercel deployment
 
 1. Push the repo and **Import** into Vercel.
-2. Set **all** environment variables from `.env.example`.
+2. Set **all** environment variables from `.env.example`. **`DATABASE_URL` must be the real Supabase URI** (not `[project-ref]` placeholders). Use **Transaction pooler** (`…pooler.supabase.com:6543/postgres?pgbouncer=true`) for Vercel serverless.
 3. Build command: `npm run build` (already runs `prisma generate`).
 4. Ensure **DATABASE_URL** uses Supabase **pooler** URL on Vercel; keep **DIRECT_URL** for migrations run from CI or local machine.
 5. Recommended: run migrations against production from a trusted environment:
