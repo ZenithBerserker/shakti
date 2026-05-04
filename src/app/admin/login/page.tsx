@@ -39,9 +39,10 @@ export default function AdminLoginPage() {
     <div className="flex min-h-dvh items-center justify-center bg-muted/40 px-4 py-16">
       <Card className="w-full max-w-md border-border/70 shadow-md">
         <CardHeader>
-          <CardTitle className="text-2xl">Admin sign-in</CardTitle>
+          <CardTitle className="text-2xl">Staff login</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Restricted console — passwords hashed with bcrypt at rest.
+            This screen is only for your operations team (you). Customers never see it — they sign in on the public shop
+            with their mobile OTP. Use the admin email and password created for you when the site was set up.
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -69,7 +70,7 @@ export default function AdminLoginPage() {
             Continue
           </Button>
           <p className="text-center text-xs text-muted-foreground">
-            Demo credentials ship with the seed script — see README.
+            Forgot password? Ask whoever maintains hosting — they reset it in the database or redeploy admin users.
           </p>
         </CardContent>
       </Card>

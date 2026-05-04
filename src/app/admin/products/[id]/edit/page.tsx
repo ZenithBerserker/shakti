@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -103,7 +103,7 @@ export default function AdminEditProductPage() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error ?? "Could not save");
-      toast.success("Product saved");
+      toast.success("Saved — changes appear on the shop right away.");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not save");
     } finally {
@@ -120,7 +120,7 @@ export default function AdminEditProductPage() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error ?? "Could not deactivate");
-      toast.success("Product deactivated");
+      toast.success("Archived — open Products and press Show, or Edit this SKU later.");
       router.replace("/admin/products");
       router.refresh();
     } catch (e) {
@@ -144,7 +144,7 @@ export default function AdminEditProductPage() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error ?? "Upload failed");
       setImageUrl(String(data.imageUrl ?? ""));
-      toast.success("Image uploaded");
+      toast.success("Photo uploaded");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Upload failed");
     } finally {
@@ -157,28 +157,27 @@ export default function AdminEditProductPage() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">Edit product</h1>
-          <p className="text-sm text-muted-foreground">
-            Updates propagate to catalogue reads instantly; historical orders remain immutable.
+          <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+            Everything here is safe for non-technical staff: write what shoppers should read, adjust stock, turn the
+            listing off without deleting history.
           </p>
         </div>
-        <Link href="/admin/products" className={cn(buttonVariants({ variant: "outline" }))}>
-          Back
+        <Link href="/admin/products" className={cn(buttonVariants({ variant: "outline" }), "rounded-xl")}>
+          Back to list
         </Link>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Fields</CardTitle>
+          <CardTitle>What shoppers see</CardTitle>
+          <CardDescription>Name, category, long description, and photo appear on the public product page.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2 md:col-span-2">
-            <Label>Category</Label>
-            <Select
-              value={categoryId || undefined}
-              onValueChange={(v) => setCategoryId(v ?? "")}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select category" />
+            <Label htmlFor="category">Shelf category</Label>
+            <Select value={categoryId || undefined} onValueChange={(v) => setCategoryId(v ?? "")}>
+              <SelectTrigger id="category" className="w-full">
+                <SelectValue placeholder="Choose category" />
               </SelectTrigger>
               <SelectContent>
                 {categories.map((c) => (
@@ -191,57 +190,29 @@ export default function AdminEditProductPage() {
           </div>
 
           <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="sku">SKU</Label>
-            <Input id="sku" value={sku} onChange={(e) => setSku(e.target.value)} />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="hsn">HSN</Label>
-            <Input id="hsn" value={hsnCode} onChange={(e) => setHsnCode(e.target.value)} />
+            <Label htmlFor="name">Product title</Label>
+            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. 5L neutral floor cleaner" />
           </div>
 
           <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="desc">Description</Label>
-            <Textarea id="desc" rows={5} value={description} onChange={(e) => setDescription(e.target.value)} />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="price">Base price</Label>
-            <Input id="price" value={basePrice} onChange={(e) => setBasePrice(e.target.value)} />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="gst">GST %</Label>
-            <Input id="gst" value={gstRate} onChange={(e) => setGstRate(e.target.value)} />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="stock">Stock</Label>
-            <Input id="stock" value={stockQuantity} onChange={(e) => setStockQuantity(e.target.value)} />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="moq">MOQ</Label>
-            <Input id="moq" value={minOrderQty} onChange={(e) => setMinOrderQty(e.target.value)} />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="step">Step qty</Label>
-            <Input id="step" value={stepQty} onChange={(e) => setStepQty(e.target.value)} />
+            <Label htmlFor="desc">Description for buyers</Label>
+            <Textarea
+              id="desc"
+              rows={10}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Ingredients, dilution, pack size, safety notes…"
+              className="min-h-[180px] resize-y"
+            />
           </div>
 
           <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="img">Image URL</Label>
-            <Input id="img" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
+            <Label htmlFor="img">Picture link (optional)</Label>
+            <Input id="img" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://…" />
           </div>
 
           <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="file">Upload image (Supabase storage)</Label>
+            <Label htmlFor="file">Upload a photo</Label>
             <Input
               id="file"
               type="file"
@@ -250,31 +221,100 @@ export default function AdminEditProductPage() {
               onChange={(e) => void uploadImage(e.target.files?.[0])}
             />
             <p className="text-xs text-muted-foreground">
-              Requires NEXT_PUBLIC_SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY + bucket{" "}
-              <code className="rounded bg-muted px-1">product-images</code>.
+              Needs Supabase storage configured on the server — otherwise paste an image URL above.
             </p>
-          </div>
-
-          <label className="flex items-center gap-2 text-sm md:col-span-2">
-            <Checkbox checked={isFeatured} onCheckedChange={(v) => setIsFeatured(Boolean(v))} />
-            Featured
-          </label>
-
-          <label className="flex items-center gap-2 text-sm md:col-span-2">
-            <Checkbox checked={isActive} onCheckedChange={(v) => setIsActive(Boolean(v))} />
-            Active
-          </label>
-
-          <div className="flex flex-wrap gap-3 md:col-span-2">
-            <Button className="rounded-2xl" disabled={busy} onClick={() => void save()}>
-              Save changes
-            </Button>
-            <Button variant="destructive" disabled={busy} onClick={() => void deactivate()}>
-              Deactivate (soft delete)
-            </Button>
           </div>
         </CardContent>
       </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Pricing &amp; references</CardTitle>
+          <CardDescription>SKU is your internal code; GST % and HSN feed invoices.</CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4 md:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="sku">SKU / internal code</Label>
+            <Input id="sku" value={sku} onChange={(e) => setSku(e.target.value)} />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="hsn">HSN code</Label>
+            <Input id="hsn" value={hsnCode} onChange={(e) => setHsnCode(e.target.value)} placeholder="Optional" />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="price">Price before GST (₹)</Label>
+            <Input id="price" inputMode="decimal" value={basePrice} onChange={(e) => setBasePrice(e.target.value)} />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="gst">GST rate (%)</Label>
+            <Input id="gst" inputMode="decimal" value={gstRate} onChange={(e) => setGstRate(e.target.value)} />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Stock &amp; ordering rules</CardTitle>
+          <CardDescription>
+            Set quantity to <strong>0</strong> while you wait for supply; shoppers cannot checkout until stock is above
+            zero.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4 md:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="stock">Units in warehouse</Label>
+            <Input id="stock" inputMode="numeric" value={stockQuantity} onChange={(e) => setStockQuantity(e.target.value)} />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="moq">Minimum order quantity</Label>
+            <Input id="moq" inputMode="numeric" value={minOrderQty} onChange={(e) => setMinOrderQty(e.target.value)} />
+          </div>
+
+          <div className="space-y-2 md:col-span-2">
+            <Label htmlFor="step">Sell in multiples of (step qty)</Label>
+            <Input id="step" inputMode="numeric" value={stepQty} onChange={(e) => setStepQty(e.target.value)} />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Shop visibility</CardTitle>
+          <CardDescription>Turn listings off seasonally without deleting anything.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border/80 bg-muted/30 p-4 text-sm">
+            <Checkbox checked={isActive} onCheckedChange={(v) => setIsActive(Boolean(v))} className="mt-0.5" />
+            <span>
+              <span className="font-medium">Show on the public website</span>
+              <span className="mt-1 block text-xs text-muted-foreground">
+                Uncheck to hide the product completely; past orders stay unchanged.
+              </span>
+            </span>
+          </label>
+
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border/80 bg-muted/30 p-4 text-sm">
+            <Checkbox checked={isFeatured} onCheckedChange={(v) => setIsFeatured(Boolean(v))} className="mt-0.5" />
+            <span>
+              <span className="font-medium">Feature on homepage highlights</span>
+              <span className="mt-1 block text-xs text-muted-foreground">Optional spotlight in the storefront.</span>
+            </span>
+          </label>
+        </CardContent>
+      </Card>
+
+      <div className="flex flex-wrap gap-3">
+        <Button className="rounded-2xl px-8" disabled={busy} onClick={() => void save()}>
+          Save changes
+        </Button>
+        <Button variant="destructive" disabled={busy} className="rounded-2xl" onClick={() => void deactivate()}>
+          Hide product from shop (soft archive)
+        </Button>
+      </div>
     </div>
   );
 }

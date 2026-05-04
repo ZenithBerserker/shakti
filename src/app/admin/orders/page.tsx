@@ -8,7 +8,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { DISPATCH_WHATSAPP_E164 } from "@/lib/constants";
 import { whatsappOpsNewOrderDeepLink } from "@/lib/whatsapp";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -115,6 +115,20 @@ export default function AdminOrdersPage() {
           Export CSV
         </a>
       </div>
+
+      <Card className="border-primary/15 bg-primary/5">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base">Who placed each order?</CardTitle>
+          <CardDescription className="text-sm leading-relaxed">
+            The <strong>Customer</strong> column shows the buyer&apos;s saved business name (and phone). That comes from
+            their account when they registered or checked out — it is not your admin login. Open{" "}
+            <Link href="/admin/customers" className="font-medium text-primary underline underline-offset-2">
+              Customers
+            </Link>{" "}
+            to see everyone who has an account.
+          </CardDescription>
+        </CardHeader>
+      </Card>
 
       <Card>
         <CardHeader>

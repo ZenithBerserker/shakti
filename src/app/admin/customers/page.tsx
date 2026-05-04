@@ -55,8 +55,9 @@ export default function AdminCustomersPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-semibold tracking-tight">Customers</h1>
-        <p className="text-sm text-muted-foreground">
-          Unified buyer profiles pulled from Firebase-backed onboarding.
+        <p className="max-w-2xl text-sm text-muted-foreground">
+          Everyone who signed up on the public shop appears here with their saved business name and phone — this is what
+          you see on orders. These people log in with OTP on the storefront, not with your admin password.
         </p>
       </div>
 
