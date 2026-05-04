@@ -12,6 +12,7 @@ import { generateOrderNumber } from "@/lib/order-number";
 import { serializeOrder } from "@/lib/orders-serialize";
 import { whatsappOrderDeepLink } from "@/lib/whatsapp";
 import { BUSINESS_WHATSAPP_E164 } from "@/lib/constants";
+import { notifyOrderCreated } from "@/lib/order-notify";
 
 const checkoutSchema = z.object({
   addressId: z.string().uuid(),
@@ -184,6 +185,11 @@ export async function POST(req: Request) {
         BUSINESS_WHATSAPP_E164,
       );
     }
+
+    notifyOrderCreated({
+      ...order,
+      user: { phone: user.phone },
+    });
 
     return jsonOk({
       order: serializeOrder(order),

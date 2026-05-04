@@ -11,3 +11,7 @@ export const SUPPORT_WHATSAPP_E164 =
 
 export const BUSINESS_WHATSAPP_E164 =
   process.env.NEXT_PUBLIC_BUSINESS_WHATSAPP_ORDER ?? "";
+
+/** Ops / warehouse WhatsApp for dispatch drafts (falls back to business order inbox). */
+export const DISPATCH_WHATSAPP_E164 =
+  process.env.NEXT_PUBLIC_DISPATCH_WHATSAPP?.trim() || BUSINESS_WHATSAPP_E164;

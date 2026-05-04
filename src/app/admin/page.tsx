@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { OrderAlertPoller } from "@/components/admin/order-alert-poller";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -45,8 +44,6 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="space-y-8">
-      <OrderAlertPoller />
-
       <div>
         <h1 className="text-3xl font-semibold tracking-tight">Dashboard</h1>
         <p className="text-sm text-muted-foreground">

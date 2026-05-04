@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { DISPATCH_WHATSAPP_E164 } from "@/lib/constants";
+import { whatsappOpsNewOrderDeepLink } from "@/lib/whatsapp";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -34,6 +37,11 @@ type Row = {
   customerPhone: string;
   businessName: string | null;
   createdAt: string;
+  deliveryName: string;
+  deliveryAddress: string;
+  deliveryCity: string;
+  deliveryState: string;
+  deliveryPincode: string;
 };
 
 export default function AdminOrdersPage() {
@@ -100,7 +108,7 @@ export default function AdminOrdersPage() {
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">Orders</h1>
           <p className="text-sm text-muted-foreground">
-            Filter fulfilment queues and sync statuses across warehouse teams.
+            Fulfillment queue with delivery snapshots — open WhatsApp drafts for dispatch runs when a dispatch number is configured.
           </p>
         </div>
         <a href={exportHref} className={cn(buttonVariants({ variant: "outline" }))}>
@@ -142,9 +150,11 @@ export default function AdminOrdersPage() {
               <TableRow>
                 <TableHead>Order</TableHead>
                 <TableHead>Customer</TableHead>
+                <TableHead className="min-w-[200px]">Deliver to</TableHead>
                 <TableHead>When</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Total</TableHead>
+                {DISPATCH_WHATSAPP_E164 ? <TableHead className="w-[100px]">Notify</TableHead> : null}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -154,6 +164,13 @@ export default function AdminOrdersPage() {
                   <TableCell className="text-sm">
                     <div className="font-medium">{o.businessName ?? "—"}</div>
                     <div className="text-xs text-muted-foreground">{o.customerPhone}</div>
+                  </TableCell>
+                  <TableCell className="text-sm">
+                    <div className="font-medium leading-snug">{o.deliveryName}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {o.deliveryCity}, {o.deliveryState} {o.deliveryPincode}
+                    </div>
+                    <div className="line-clamp-2 text-[11px] text-muted-foreground">{o.deliveryAddress}</div>
                   </TableCell>
                   <TableCell className="text-xs text-muted-foreground">
                     {new Date(o.createdAt).toLocaleString()}
@@ -183,11 +200,40 @@ export default function AdminOrdersPage() {
                       Inspect
                     </Link>
                   </TableCell>
+                  {DISPATCH_WHATSAPP_E164 ? (
+                    <TableCell>
+                      <a
+                        href={whatsappOpsNewOrderDeepLink({
+                          phoneE164: DISPATCH_WHATSAPP_E164,
+                          orderNumber: o.orderNumber,
+                          grandTotal: o.grandTotal,
+                          customerPhone: o.customerPhone,
+                          deliveryName: o.deliveryName,
+                          deliveryAddress: o.deliveryAddress,
+                          deliveryCity: o.deliveryCity,
+                          deliveryState: o.deliveryState,
+                          deliveryPincode: o.deliveryPincode,
+                        })}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={cn(
+                          buttonVariants({ variant: "outline", size: "sm" }),
+                          "gap-1.5 whitespace-nowrap",
+                        )}
+                      >
+                        <MessageCircle className="h-4 w-4" />
+                        WhatsApp
+                      </a>
+                    </TableCell>
+                  ) : null}
                 </TableRow>
               ))}
               {rows.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-sm text-muted-foreground">
+                  <TableCell
+                    colSpan={DISPATCH_WHATSAPP_E164 ? 7 : 6}
+                    className="text-sm text-muted-foreground"
+                  >
                     No orders match these filters.
                   </TableCell>
                 </TableRow>

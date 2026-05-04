@@ -13,6 +13,7 @@ import {
   Tags,
   Users,
 } from "lucide-react";
+import { OrderAlertPoller } from "@/components/admin/order-alert-poller";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -89,6 +90,7 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
         </aside>
 
         <div className="min-w-0 flex-1 space-y-4">
+          <OrderAlertPoller />
           <div className="flex items-center justify-between lg:hidden">
             <div className="text-sm font-semibold">Admin</div>
             <Sheet>
@@ -116,7 +118,7 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
       <div className="pointer-events-none fixed bottom-6 right-6 hidden lg:block">
         <div className="pointer-events-auto flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-xs text-muted-foreground shadow-md">
           <LineChart className="h-4 w-4" />
-          Live dashboard refreshes every ~28s for audio cues
+          New orders: browser chime (~28s poll) · optional SMS/webhook via env (see .env.example)
         </div>
       </div>
     </div>

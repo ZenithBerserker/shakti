@@ -122,10 +122,10 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div className="flex min-h-dvh flex-1 flex-col bg-background pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-8">
-      <header className="sticky top-0 z-40 border-b border-primary/10 bg-background/90 pt-[env(safe-area-inset-top)] shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-background/75">
-        <div className="flex w-full items-center justify-between gap-2 px-3 py-2.5 sm:px-4 sm:py-3">
-          <div className="min-w-0 flex-1">
+    <div className="flex min-h-dvh flex-1 flex-col bg-background pb-[calc(6rem+env(safe-area-inset-bottom))] lg:pb-10">
+      <header className="sticky top-0 z-40 border-b border-primary/10 bg-background/90 pt-[env(safe-area-inset-top)] shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-background/75 lg:z-50">
+        <div className="flex w-full items-center justify-between gap-3 px-3 py-2.5 sm:px-4 sm:py-3 lg:gap-6 lg:px-6 lg:py-4">
+          <div className="min-w-0 shrink-0 lg:max-w-[220px]">
             <Link href="/" className="flex items-center gap-2">
               <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
                 <Droplets className="h-5 w-5" />
@@ -139,7 +139,13 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
             </Link>
           </div>
 
-          <div className="flex shrink-0 items-center gap-1.5">
+          {!minimal ? (
+            <nav className="hidden min-w-0 flex-1 items-center justify-center gap-6 lg:flex">
+              {nav}
+            </nav>
+          ) : null}
+
+          <div className="flex shrink-0 items-center gap-1.5 lg:gap-2">
             {!minimal ? (
               <>
                 <Link
@@ -170,7 +176,13 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
 
             <Sheet>
               <SheetTrigger
-                render={<Button variant="outline" size="icon" className="h-10 w-10 rounded-xl" />}
+                render={
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-10 w-10 rounded-xl lg:hidden"
+                  />
+                }
               >
                 <Menu className="h-5 w-5" />
               </SheetTrigger>
@@ -185,7 +197,7 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
                       href="/cart"
                       className={cn(
                         buttonVariants({ variant: "outline" }),
-                        "w-full justify-start gap-2",
+                        "w-full justify-start gap-2 lg:hidden",
                       )}
                     >
                       <ShoppingCart className="h-4 w-4" />
@@ -203,11 +215,22 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
                 ) : null}
               </SheetContent>
             </Sheet>
+
+            {!minimal ? (
+              <Button
+                variant="outline"
+                className="hidden h-10 gap-2 rounded-xl px-3 lg:inline-flex"
+                onClick={() => void logoutCustomer()}
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="text-sm">Sign out</span>
+              </Button>
+            ) : null}
           </div>
         </div>
       </header>
 
-      <main className="w-full flex-1 px-3 py-4 sm:px-4 sm:py-6">{children}</main>
+      <main className="w-full flex-1 px-3 py-4 sm:px-4 sm:py-6 lg:px-8 lg:py-8">{children}</main>
 
       {!minimal ? (
         <>
@@ -215,7 +238,7 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
             href="/cart"
             className={cn(
               buttonVariants({}),
-              "fixed left-4 right-4 z-40 h-12 gap-2 rounded-2xl shadow-lg",
+              "fixed left-4 right-4 z-40 h-12 gap-2 rounded-2xl shadow-lg lg:hidden",
               "bottom-[max(1rem,env(safe-area-inset-bottom))]",
             )}
           >
@@ -228,7 +251,7 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
             ) : null}
           </Link>
 
-          <div className="fixed bottom-[calc(max(1rem,env(safe-area-inset-bottom))+6.75rem)] left-4 z-40">
+          <div className="fixed bottom-[calc(max(1rem,env(safe-area-inset-bottom))+6.75rem)] left-4 z-40 lg:hidden">
             <Link
               href="/catalog"
               className={cn(
@@ -248,7 +271,7 @@ export function ClientChrome({ children }: { children: React.ReactNode }) {
           href={waHref}
           target="_blank"
           rel="noreferrer"
-          className="fixed bottom-24 right-4 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg transition hover:bg-emerald-700"
+          className="fixed bottom-24 right-4 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg transition hover:bg-emerald-700 lg:bottom-8 lg:right-8"
           aria-label="WhatsApp support"
         >
           <PhoneCall className="h-6 w-6" />

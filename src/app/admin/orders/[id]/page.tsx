@@ -3,10 +3,16 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { MapPin, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { DISPATCH_WHATSAPP_E164 } from "@/lib/constants";
+import { googleMapsDeliverToUrl } from "@/lib/delivery-links";
 import { formatINR } from "@/lib/money";
+import { whatsappOpsNewOrderDeepLink } from "@/lib/whatsapp";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function AdminOrderInspectPage() {
   const params = useParams<{ id: string }>();
@@ -49,6 +55,28 @@ export default function AdminOrderInspectPage() {
   if (!payload) return <p className="text-sm text-muted-foreground">Loading…</p>;
 
   const o = payload.order;
+  const customerPhone = String(payload.customer.phone ?? "");
+
+  const mapsHref = googleMapsDeliverToUrl({
+    deliveryAddress: o.deliveryAddress,
+    deliveryCity: o.deliveryCity,
+    deliveryState: o.deliveryState,
+    deliveryPincode: o.deliveryPincode,
+  });
+
+  const opsWaHref =
+    DISPATCH_WHATSAPP_E164 &&
+    whatsappOpsNewOrderDeepLink({
+      phoneE164: DISPATCH_WHATSAPP_E164,
+      orderNumber: o.orderNumber,
+      grandTotal: o.grandTotal,
+      customerPhone,
+      deliveryName: o.deliveryName,
+      deliveryAddress: o.deliveryAddress,
+      deliveryCity: o.deliveryCity,
+      deliveryState: o.deliveryState,
+      deliveryPincode: o.deliveryPincode,
+    });
 
   return (
     <div className="space-y-6">
@@ -66,6 +94,29 @@ export default function AdminOrderInspectPage() {
             {formatINR(Number(o.grandTotal))}
           </div>
         </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <a
+          href={mapsHref}
+          target="_blank"
+          rel="noreferrer"
+          className={cn(buttonVariants({ variant: "secondary" }), "gap-2")}
+        >
+          <MapPin className="h-4 w-4" />
+          Open in Maps
+        </a>
+        {opsWaHref ? (
+          <a
+            href={opsWaHref}
+            target="_blank"
+            rel="noreferrer"
+            className={cn(buttonVariants({ variant: "outline" }), "gap-2")}
+          >
+            <MessageCircle className="h-4 w-4" />
+            WhatsApp dispatch draft
+          </a>
+        ) : null}
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
