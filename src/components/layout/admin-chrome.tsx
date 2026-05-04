@@ -10,6 +10,7 @@ import {
   LogOut,
   Menu,
   Package,
+  Sparkles,
   ShoppingCart,
   Tags,
   Users,
@@ -27,6 +28,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 const links = [
+  { href: "/admin/demo", label: "UI preview (demo)", icon: Sparkles },
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
   { href: "/admin/customers", label: "Customers", icon: Users },
@@ -41,9 +43,10 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [me, setMe] = useState<AdminMe | null>(null);
+  const isDemoPreview = pathname.startsWith("/admin/demo");
 
   useEffect(() => {
-    if (pathname.startsWith("/admin/login")) return;
+    if (pathname.startsWith("/admin/login") || pathname.startsWith("/admin/demo")) return;
     void (async () => {
       const res = await fetch("/api/admin/auth/me", {
         credentials: "include",
@@ -59,6 +62,10 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
   }
 
   async function logout() {
+    if (isDemoPreview) {
+      router.replace("/admin/login");
+      return;
+    }
     await fetch("/api/admin/auth/logout", { method: "POST", credentials: "include" });
     router.replace("/admin/login");
     router.refresh();
@@ -67,7 +74,8 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
   const Nav = (
     <nav className="grid gap-1">
       {links.map((l) => {
-        const active = pathname === l.href || pathname.startsWith(`${l.href}/`);
+        let active = pathname === l.href || pathname.startsWith(`${l.href}/`);
+        if (l.href === "/admin" && pathname.startsWith("/admin/demo")) active = false;
         const Icon = l.icon;
         return (
           <Link key={l.href} href={l.href}>
@@ -87,7 +95,20 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
     </nav>
   );
 
-  const signedInLine = me ? (
+  const signedInLine = isDemoPreview ? (
+    <div className="rounded-xl border border-amber-200/80 bg-amber-50/90 px-2.5 py-2 text-xs text-amber-950 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-50">
+      <div className="font-semibold">Demo preview mode</div>
+      <p className="mt-1.5 leading-snug text-[11px] opacity-90">
+        Navigation uses the real admin URLs — other pages need staff login once the database is connected.
+      </p>
+      <Link
+        href="/admin/login"
+        className="mt-2 inline-block text-[11px] font-medium text-amber-900 underline underline-offset-2 dark:text-amber-100"
+      >
+        Go to staff login →
+      </Link>
+    </div>
+  ) : me ? (
     <div className="rounded-xl border border-sidebar-border bg-sidebar-accent/30 px-2.5 py-2 text-xs">
       <div className="font-medium text-sidebar-foreground">Signed in</div>
       <div className="truncate text-muted-foreground" title={me.email}>
@@ -120,13 +141,13 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
             <Separator className="my-3 bg-sidebar-border" />
             <Button variant="outline" className="w-full justify-start gap-2" onClick={() => void logout()}>
               <LogOut className="h-4 w-4" />
-              Sign out
+              {isDemoPreview ? "Exit preview" : "Sign out"}
             </Button>
           </div>
         </aside>
 
         <div className="min-w-0 flex-1 space-y-4">
-          <OrderAlertPoller />
+          {!isDemoPreview ? <OrderAlertPoller /> : null}
           <div className="flex items-center justify-between lg:hidden">
             <div className="min-w-0">
               <div className="text-sm font-semibold">Admin</div>
@@ -148,7 +169,7 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
                 <Separator className="my-4" />
                 <Button className="w-full gap-2" variant="outline" onClick={() => void logout()}>
                   <LogOut className="h-4 w-4" />
-                  Sign out
+                  {isDemoPreview ? "Exit preview" : "Sign out"}
                 </Button>
               </SheetContent>
             </Sheet>
@@ -158,12 +179,14 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <div className="pointer-events-none fixed bottom-6 right-6 hidden lg:block">
-        <div className="pointer-events-auto flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-xs text-muted-foreground shadow-md">
-          <LineChart className="h-4 w-4" />
-          New orders: browser chime (~28s poll) · optional SMS/webhook via env (see .env.example)
+      {!isDemoPreview ? (
+        <div className="pointer-events-none fixed bottom-6 right-6 hidden lg:block">
+          <div className="pointer-events-auto flex items-center gap-2 rounded-full border bg-background px-4 py-2 text-xs text-muted-foreground shadow-md">
+            <LineChart className="h-4 w-4" />
+            New orders: browser chime (~28s poll) · optional SMS/webhook via env (see .env.example)
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 }

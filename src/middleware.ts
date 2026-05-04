@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
   const secret = jwtSecretKey();
 
   if (pathname.startsWith("/admin")) {
-    if (pathname.startsWith("/admin/login")) {
+    if (pathname.startsWith("/admin/login") || pathname.startsWith("/admin/demo")) {
       return NextResponse.next();
     }
     if (!secret) {

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -69,6 +70,12 @@ export default function AdminLoginPage() {
           <Button className="w-full rounded-2xl" disabled={busy} onClick={() => void submit()}>
             Continue
           </Button>
+          <p className="text-center text-sm text-muted-foreground">
+            No database yet?{" "}
+            <Link href="/admin/demo" className="font-medium text-foreground underline underline-offset-4">
+              Open dashboard preview (demo data)
+            </Link>
+          </p>
           <div className="space-y-2 text-center text-xs text-muted-foreground">
             <p>
               Default after <code className="rounded bg-muted px-1">npm run db:seed</code>:{" "}
