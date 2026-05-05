@@ -4,6 +4,9 @@ import {
   DEMO_CATEGORIES,
   DEMO_PRODUCTS,
 } from "../src/lib/catalog-demo-fixtures";
+import { loadPrismaCliEnv } from "../src/lib/prisma-cli-env";
+
+loadPrismaCliEnv();
 
 const prisma = new PrismaClient();
 
