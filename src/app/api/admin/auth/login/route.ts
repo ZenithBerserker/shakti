@@ -20,14 +20,15 @@ const schema = z.object({
 function databaseUrlConfigured(): string | null {
   const raw = process.env.DATABASE_URL?.trim();
   if (!raw) {
-    return "DATABASE_URL is empty — open Vercel → your project → Settings → Environment Variables → Production → add the Supabase Postgres URI.";
+    return "DATABASE_URL is empty — open Vercel → your project → Settings → Environment Variables → Production and add your Postgres URI (Neon pooler or Supabase pooler).";
   }
   const bogus =
     raw.includes("[project-ref]") ||
     raw.includes("[password]") ||
+    raw.includes("<") ||
     /postgresql:\/\/postgres:\[password\]/i.test(raw);
   if (bogus) {
-    return "DATABASE_URL still looks like the template — copy the real URI from Supabase → Project Settings → Database → Connection string (URI), Transaction pooler.";
+    return "DATABASE_URL still looks like a template — copy the real pooled connection string from Neon or Supabase (no placeholder text).";
   }
   return null;
 }
@@ -38,7 +39,7 @@ function describeDatabaseError(e: unknown): string {
       return "Tables are missing — from your laptop run: DATABASE_URL=\"…pooler…\" DIRECT_URL=\"…direct…\" npx prisma migrate deploy";
     }
     if (e.code === "P1001") {
-      return "Cannot reach Postgres — confirm DATABASE_URL uses Supabase pooler (port 6543), ?pgbouncer=true, and the database is not paused.";
+      return "Cannot reach Postgres — wake the DB in Neon (or resume Supabase). On Vercel, verify Production DATABASE_URL is the pooled Neon URI and remove channel_binding=require from the string if Neon added it.";
     }
   }
   if (e instanceof Prisma.PrismaClientInitializationError) {
@@ -49,7 +50,7 @@ function describeDatabaseError(e: unknown): string {
     return "Schema missing — run prisma migrate deploy against this DATABASE_URL.";
   }
   if (/P1001|ECONNREFUSED|ENOTFOUND|timeout|Can't reach database/i.test(msg)) {
-    return "Network/ssl connection to Postgres failed — double-check DATABASE_URL and Supabase project region.";
+    return "Network/TLS to Postgres failed — check DATABASE_URL on Vercel (Production), Neon compute awake, and try dropping channel_binding=require from the URI.";
   }
   return "Could not query Postgres — verify DATABASE_URL on Vercel and run prisma migrate deploy.";
 }
